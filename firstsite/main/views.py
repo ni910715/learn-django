@@ -35,9 +35,13 @@ def create(response):
 
         if form.is_valid():
             n = form.cleaned_data["name"] # cleaned_data解密 並使用字典的方式取出name的value
-            t = ToDoList(name = n)
+            t = ToDoList(name=n)
             t.save()
+            response.user.todolist.add(t)
         return HttpResponseRedirect("/%i" %t.id) # 重新導向新的url
     else:
         form = CreateNewList()
     return render(response, "main/create.html", {"form":form})
+
+def view(response):
+    return render(response, "main/view.html", {})
